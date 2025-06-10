@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrowdWatch Pro - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2a5298;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .welcome-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .location-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .location-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            position: relative;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+        }
+
+        .crowd-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .crowd-low { background: #27ae60; }
+        .crowd-medium { background: #f39c12; }
+        .crowd-high { background: #e74c3c; }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .location-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .location-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .location-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .start-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .trust-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .trust-title {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .trust-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .trust-logos {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .locations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">📹</span>
+                CrowdWatch Pro
+                <small style="margin-left: 10px; font-size: 0.7rem; color: #666;">Advanced Monitoring Solutions</small>
+            </div>
+            <div class="user-info">
+                <div class="welcome-text">
+                    Welcome, <strong>Admin</strong><br>
+                    <small>System Administrator</small>
+                </div>
+                <button class="logout-btn">🚪 Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="page-title">
+            <h1>👁️ Live Monitoring Centers</h1>
+        </div>
+        <p class="page-subtitle">Select a location to start real-time crowd monitoring</p>
+
+        <div class="locations-grid">
+            <div class="location-card">
+                <div class="card-header" style="background-image: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 200&quot;><rect fill=&quot;%23ff6b35&quot; width=&quot;400&quot; height=&quot;200&quot;/><text x=&quot;200&quot; y=&quot;100&quot; text-anchor=&quot;middle&quot; dominant-baseline=&quot;middle&quot; fill=&quot;white&quot; font-size=&quot;16&quot; font-family=&quot;Arial&quot;>🏛️ Temple Complex</text></svg>');">
+                    <div class="card-overlay"></div>
+                    <div class="crowd-indicator crowd-medium">MEDIUM CROWD</div>
+                </div>
+                <div class="card-body">
+                    <div class="location-info">
+                        <h3>🏛️ Kapaleshwar Temple</h3>
+                        <p class="location-description">
+                            Sacred temple complex with historical significance and high visitor turnout during festivals
+                        </p>
+                        <div class="location-meta">
+                            <div class="meta-item">
+                                <span>📍</span> Mumbai, Maharashtra
+                            </div>
+                            <div class="meta-item">
+                                <span>👥</span> Max: 500 people
+                            </div>
+                        </div>
+                        <button class="start-btn" onclick="startMonitoring('kapaleshwar')">
+                            🎯 Start Monitoring
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="location-card">
+                <div class="card-header" style="background-image: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 200&quot;><rect fill=&quot;%234ecdc4&quot; width=&quot;400&quot; height=&quot;200&quot;/><text x=&quot;200&quot; y=&quot;100&quot; text-anchor=&quot;middle&quot; dominant-baseline=&quot;middle&quot; fill=&quot;white&quot; font-size=&quot;16&quot; font-family=&quot;Arial&quot;>🌊 Riverside Ghat</text></svg>');">
+                    <div class="card-overlay"></div>
+                    <div class="crowd-indicator crowd-high">HIGH CROWD</div>
+                </div>
+                <div class="card-body">
+                    <div class="location-info">
+                        <h3>🌊 Godavari Ghat</h3>
+                        <p class="location-description">
+                            Popular riverside destination for pilgrims and tourists with scenic spiritual atmosphere
+                        </p>
+                        <div class="location-meta">
+                            <div class="meta-item">
+                                <span>📍</span> Nashik, Maharashtra
+                            </div>
+                            <div class="meta-item">
+                                <span>👥</span> Max: 800 people
+                            </div>
+                        </div>
+                        <button class="start-btn" onclick="startMonitoring('godavari')">
+                            🎯 Start Monitoring
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="location-card">
+                <div class="card-header" style="background-image: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 200&quot;><rect fill=&quot;%2345b7d1&quot; width=&quot;400&quot; height=&quot;200&quot;/><text x=&quot;200&quot; y=&quot;100&quot; text-anchor=&quot;middle&quot; dominant-baseline=&quot;middle&quot; fill=&quot;white&quot; font-size=&quot;16&quot; font-family=&quot;Arial&quot;>🕳️ Ancient Cave</text></svg>');">
+                    <div class="card-overlay"></div>
+                    <div class="crowd-indicator crowd-low">LOW CROWD</div>
+                </div>
+                <div class="card-body">
+                    <div class="location-info">
+                        <h3>🏔️ Sita Gufa Cave</h3>
+                        <p class="location-description">
+                            Ancient cave with mythological importance, offering peaceful environment for meditation
+                        </p>
+                        <div class="location-meta">
+                            <div class="meta-item">
+                                <span>📍</span> Nashik, Maharashtra
+                            </div>
+                            <div class="meta-item">
+                                <span>👥</span> Max: 300 people
+                            </div>
+                        </div>
+                        <button class="start-btn" onclick="startMonitoring('sitagufa')">
+                            🎯 Start Monitoring
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="trust-section">
+            <div class="trust-title">🏅 Trusted by Leading Organizations</div>
+            <p class="trust-description">
+                Our crowd monitoring solutions are used by government agencies, event organizers, and security firms
+            </p>
+            <div class="trust-logos">
+                <div class="trust-item">
+                    <span>🛡️</span> SecureVision Tech
+                </div>
+                <div class="trust-item">
+                    <span>📊</span> Smart City Solutions
+                </div>
+                <div class="trust-item">
+                    <span>🎯</span> Vision Analytics Pro
+                </div>
+                <div class="trust-item">
+                    <span>🤖</span> AI Monitoring Systems
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#" class="footer-link">📞 24/7 Support</a>
+            <a href="#" class="footer-link">📧 Contact Us</a>
+            <a href="#" class="footer-link">📚 Documentation</a>
+            <a href="#" class="footer-link">⚙️ Settings</a>
+            <a href="#" class="footer-link">📈 Analytics</a>
+        </div>
+        <div class="copyright">
+            © 2024 CrowdWatch Pro. All rights reserved. | Powered by Advanced AI Technology
+        </div>
+    </footer>
+
+    <script>
+        function startMonitoring(location) {
+            // Show loading state
+            event.target.innerHTML = '⏳ Starting...';
+            event.target.disabled = true;
+            
+            // Start the monitoring process
+            fetch(`/start/${location}`)
+                .then(response => {
+                    if (response.ok) {
+                        // Redirect to monitoring page
+                        window.location.href = `/monitor/${location}`;
+                    } else {
+                        throw new Error('Failed to start monitoring');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    event.target.innerHTML = '❌ Failed - Try Again';
+                    event.target.disabled = false;
+                    setTimeout(() => {
+                        event.target.innerHTML = '🎯 Start Monitoring';
+                    }, 3000);
+                });
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.location-card');
+            
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
